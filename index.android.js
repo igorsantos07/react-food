@@ -6,7 +6,6 @@
 
 import React, {Component} from 'react'
 import { AppRegistry, StyleSheet, Text, View, Button, ToastAndroid, ToolbarAndroid } from 'react-native'
-import nativeImageSource from 'nativeImageSource'
 
 class ReactFood extends Component {
 
@@ -31,10 +30,9 @@ class ReactFood extends Component {
   render() {
     return (
       <View style={s.root}>
-        <ToolbarAndroid style={s.toolbar} logo={require('./img/logo.png')}
-                        title="ReactFood" subtitle="Don't forget to eat, stupid!"/>
+        <ToolbarAndroid style={s.toolbar} logo={require('./img/logo.144.png')} title="ReactFood" subtitle="Don't forget to eat, stupid!"/>
         <View style={s.container}>
-          <Text style={s.instructions}>I have just eaten. Warn me again in...</Text>
+          <Text style={s.instructions}>I have just eaten.{'\n'}Warn me again in...</Text>
           <View style={s.buttons}>
             {ReactFood.alarmOptions.map(time => (
               <Button style={s.button} key={time} title={time} onPress={this.setAlarm(time)}/>
@@ -60,12 +58,14 @@ const s = StyleSheet.create({
   },
   toolbar: {
     height: 56,
-    backgroundColor: 'darkgray'
+    backgroundColor: 'darkgray',
+    justifyContent: 'flex-start'
   },
   instructions: {
     textAlign: 'center',
     color: '#333333',
-    marginBottom: 5,
+    fontSize: 20,
+    marginBottom: 20,
   },
   buttons: {
     flexDirection: 'row',
