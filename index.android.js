@@ -5,13 +5,8 @@
  */
 
 import React, {Component} from 'react'
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-} from 'react-native'
+import { AppRegistry, StyleSheet, Text, View, Button, ToastAndroid, ToolbarAndroid } from 'react-native'
+import nativeImageSource from 'nativeImageSource'
 
 class ReactFood extends Component {
 
@@ -28,18 +23,23 @@ class ReactFood extends Component {
   }
 
   setAlarm(time) {
-    return () => time
+    return () => {
+      ToastAndroid.show(`A notification will buzz in ${time}!`, ToastAndroid.SHORT)
+    }
   }
 
   render() {
     return (
-      <View style={s.container}>
-        <Text style={s.title}>React Food</Text>
-        <Text style={s.instructions}>I have just eaten. Warn me again in...</Text>
-        <View style={s.buttons}>
-          {ReactFood.alarmOptions.map(time => (
-            <Button style={s.button} key={time} title={time} onPress={this.setAlarm(time)}/>
-          ))}
+      <View style={s.root}>
+        <ToolbarAndroid style={s.toolbar} logo={require('./img/logo.png')}
+                        title="ReactFood" subtitle="Don't forget to eat, stupid!"/>
+        <View style={s.container}>
+          <Text style={s.instructions}>I have just eaten. Warn me again in...</Text>
+          <View style={s.buttons}>
+            {ReactFood.alarmOptions.map(time => (
+              <Button style={s.button} key={time} title={time} onPress={this.setAlarm(time)}/>
+            ))}
+          </View>
         </View>
       </View>
     )
@@ -47,16 +47,20 @@ class ReactFood extends Component {
 }
 
 const s = StyleSheet.create({
+  root: {
+    flex: 1,
+    alignItems: 'stretch',
+    flexDirection: 'column'
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  title: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  toolbar: {
+    height: 56,
+    backgroundColor: 'darkgray'
   },
   instructions: {
     textAlign: 'center',
