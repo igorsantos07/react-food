@@ -6,6 +6,19 @@
 
 import React, {Component} from 'react'
 import { AppRegistry, StyleSheet, Text, View, Button, ToastAndroid, ToolbarAndroid } from 'react-native'
+import PushNotification from 'react-native-push-notification'
+
+PushNotification.configure({
+  popInitialNotification: false,
+
+  onRegister(token) {
+    console.log( 'TOKEN:', token );
+  },
+
+  onNotification(notif) {
+    ToastAndroid.show(`Yey, got this!\n${notif.message}`, ToastAndroid.SHORT)
+  }
+})
 
 class ReactFood extends Component {
 
@@ -23,6 +36,14 @@ class ReactFood extends Component {
 
   setAlarm(time) {
     return () => {
+      PushNotification.localNotification({
+        title: 'Food time',
+        message: 'It\'s time to stop what you\'re doing and have some food.',
+        subtext: 'subtext',
+        ticker: 'ticker',
+        // repeat: 'time',
+        // repeatTime: 5*60*1000,
+      })
       ToastAndroid.show(`A notification will buzz in ${time}!`, ToastAndroid.SHORT)
     }
   }
