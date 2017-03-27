@@ -20,13 +20,16 @@ PushNotification.configure({
   }
 })
 
+const MINUTE = 60 * 1000
+const HOUR = MINUTE * 60
+
 class ReactFood extends Component {
 
   static alarmOptions = [
-    '2:00',
-    '2:30',
-    '3:00',
-    '3:30'
+    ['2:00', 2],
+    ['2:30', 2.5],
+    ['3:00', 3],
+    ['3:30', 3.5],
   ]
 
   constructor(props) {
@@ -34,17 +37,14 @@ class ReactFood extends Component {
     this.setAlarm = this.setAlarm.bind(this)
   }
 
-  setAlarm(time) {
+  setAlarm(hours) {
     return () => {
-      PushNotification.localNotification({
+      PushNotification.localNotificationSchedule({
         title: 'Food time',
         message: 'It\'s time to stop what you\'re doing and have some food.',
-        subtext: 'subtext',
-        ticker: 'ticker',
-        // repeat: 'time',
-        // repeatTime: 5*60*1000,
+        date: new Date(Date.now() + hours * HOUR)
       })
-      ToastAndroid.show(`A notification will buzz in ${time}!`, ToastAndroid.SHORT)
+      ToastAndroid.show(`A notification will buzz in ${hours}h!`, ToastAndroid.SHORT)
     }
   }
 
@@ -55,8 +55,8 @@ class ReactFood extends Component {
         <View style={s.container}>
           <Text style={s.instructions}>I have just eaten.{'\n'}Warn me again in...</Text>
           <View style={s.buttons}>
-            {ReactFood.alarmOptions.map(time => (
-              <Button style={s.button} key={time} title={time} onPress={this.setAlarm(time)}/>
+            {ReactFood.alarmOptions.map(([label, hours]) => (
+              <Button style={s.button} key={hours} title={label} onPress={this.setAlarm(hours)}/>
             ))}
           </View>
         </View>
