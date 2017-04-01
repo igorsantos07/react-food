@@ -1,22 +1,13 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+/** @flow */
 
 import React, {Component} from 'react'
 import { AppRegistry, StyleSheet, Text, View, Button, ToastAndroid, ToolbarAndroid } from 'react-native'
 import PushNotification from 'react-native-push-notification'
 
 PushNotification.configure({
-  popInitialNotification: false,
-
-  onRegister(token) {
-    console.log( 'TOKEN:', token );
-  },
-
+  requestPermissions: true,
   onNotification(notif) {
-    ToastAndroid.show(`Yey, got this!\n${notif.message}`, ToastAndroid.SHORT)
+    ToastAndroid.show(`Yey, you got this!\n${notif.message}`, ToastAndroid.SHORT)
   }
 })
 
@@ -39,21 +30,35 @@ class ReactFood extends Component {
 
   setAlarm(hours) {
     return () => {
-      PushNotification.localNotificationSchedule({
-        title: 'Food time',
-        message: 'It\'s time to stop what you\'re doing and have some food.',
-        date: new Date(Date.now() + hours * HOUR)
-      })
-      ToastAndroid.show(`A notification will buzz in ${hours}h!`, ToastAndroid.SHORT)
+      const title = 'Food time'
+      const message = "It's time to stop what you're doing and have some food."
+      if (hours) {
+        const date = new Date(Date.now() + hours * HOUR)
+        const notif = "A notification will buzz " + (__DEV__? `at ${date}` : `in ${hours} hours!`)
+        PushNotification.localNotificationSchedule({ title, message, date })
+        ToastAndroid.show(notif, ToastAndroid.SHORT)
+      } else {
+        PushNotification.localNotification({ title, message })
+        ToastAndroid.show(`You should be notified now.`, ToastAndroid.SHORT)
+      }
     }
   }
 
   render() {
+    const debugButtons = __DEV__?
+      <View style={s.buttons}>
+        <Button style={s.button} color="red" title="-= Now =-" onPress={this.setAlarm(0)}/>
+        <Button style={s.button} color="red" title="-= Soon =-" onPress={this.setAlarm(0.001)}/>
+      </View> : null
+
     return (
       <View style={s.root}>
-        <ToolbarAndroid style={s.toolbar} logo={require('./img/logo.144.png')} title="ReactFood" subtitle="Don't forget to eat, stupid!"/>
+        <ToolbarAndroid style={s.toolbar} logo={require('./img/logo.144.png')}
+                        title="ReactFood" subtitle="Don't forget to eat, stupid!"/>
         <View style={s.container}>
           <Text style={s.instructions}>I have just eaten.{'\n'}Warn me again in...</Text>
+          {debugButtons}
+
           <View style={s.buttons}>
             {ReactFood.alarmOptions.map(([label, hours]) => (
               <Button style={s.button} key={hours} title={label} onPress={this.setAlarm(hours)}/>
