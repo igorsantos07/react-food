@@ -1,4 +1,4 @@
-package com.reactfood;
+package br.com.igorsantos.reactfood;
 
 import android.app.Application;
 

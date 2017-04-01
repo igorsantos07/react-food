@@ -1,4 +1,4 @@
-package com.reactfood;
+package br.com.igorsantos.reactfood;
 
 import com.facebook.react.ReactActivity;
 
