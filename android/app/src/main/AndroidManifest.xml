@@ -1,10 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="br.com.igorsantos.reactfood"
           android:versionCode="1"
           android:versionName="1.0">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <!--
+        these permissions are added "by accident" by a React Native dependency, so we're forcing their removal
+        See https://github.com/facebook/react-native/issues/5886
+    -->
+    <uses-permission tools:node="remove" android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission tools:node="remove" android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission tools:node="remove" android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- These are added by React Native for debug mode, but actually aren't needed in releasemode -->
+    <uses-permission tools:node="remove" android:name="${internet}"/>
+    <uses-permission tools:node="remove" android:name="${systemAlert}"/>
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.VIBRATE"/>

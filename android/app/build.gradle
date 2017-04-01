@@ -115,7 +115,14 @@ android {
         }
     }
     buildTypes {
+        debug {
+            manifestPlaceholders = [systemAlert: "fake", internet: "fake"]
+        }
         release {
+            manifestPlaceholders = [
+                systemAlert: "android.permission.SYSTEM_ALERT_WINDOW",
+                internet: "android.permission.INTERNET"
+            ]
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release

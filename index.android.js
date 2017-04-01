@@ -39,7 +39,7 @@ class ReactFood extends Component {
         ToastAndroid.show(notif, ToastAndroid.SHORT)
       } else {
         PushNotification.localNotification({ title, message })
-        ToastAndroid.show(`You should be notified now.`, ToastAndroid.SHORT)
+        ToastAndroid.show(`You should be notified... now!`, ToastAndroid.SHORT)
       }
     }
   }
