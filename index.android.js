@@ -54,7 +54,7 @@ class ReactFood extends Component {
     return (
       <View style={s.root}>
         <ToolbarAndroid style={s.toolbar} logo={require('./img/logo.144.png')}
-                        title="ReactFood" subtitle="Don't forget to eat, stupid!"/>
+                        title="ReactFood" subtitle="Don't forget to eat!"/>
         <View style={s.container}>
           <Text style={s.instructions}>I have just eaten.{'\n'}Warn me again in...</Text>
           {debugButtons}
